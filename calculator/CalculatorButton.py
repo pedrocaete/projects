@@ -1,4 +1,5 @@
 from  tkinter import *
+from tkinter import messagebox
 
 class CalculatorButton:
     def __init__(self, root, signal, row, column, entry):
@@ -20,43 +21,68 @@ class CalculatorButton:
         self.button.grid(row=self.row, column=self.column, sticky="nsew")
 
     def handleClick(self):
-        if self.signal == "Clear":
-            self.entry.delete(0, END)
-        elif self.isNegativeNumber():
-            self.insertSignal()
-        elif not self.operatorFolllowOperator():
-            if self.signal == "=":
-                self.calculateResult()
-            else:
+        try:
+            if self.signal == "Clear":
+                self.entry.delete(0, END)
+            elif self.isNegativeNumber():
                 self.insertSignal()
+            elif not self.operatorFolllowOperator():
+                if self.signal == "=":
+                    self.calculateResult()
+                else:
+                    self.insertSignal()
+        except Exception as e:
+                messagebox.showerror("Erro", f"Ocorreu um erro: {e}")
 
     def calculateResult(self):
+        try:
                 expression = self.entry.get().replace("x", "*")
                 result = eval(expression)
                 self.entry.delete(0, END)
                 self.entry.insert(0, result)
+        except SyntaxError:
+            messagebox.showerror("Erro de Sintaxe", "Expressão inválida")
+        except ZeroDivisionError:
+            messagebox.showerror("Erro de Divisão", "Divisão por zero")
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao calcular: {e}")
 
     def insertSignal(self):
-        self.entry.insert(END, self.signal)
+        try:
+            self.entry.insert(END, self.signal)
+        except Exception as e:
+            messagebox.showerror("Erro" f"Erro ao inserir sinal: {e}")
 
     def operatorFolllowOperator(self):
-        return self.isLastSignalOperator() and self.isSignalOperator()
+        try:
+            return self.isLastSignalOperator() and self.isSignalOperator()
+        except Exception as e:
+            messagebox.showerror("Erro" f"Erro ao verificar operadores {e}")
 
     def isLastSignalOperator(self):
-        buffer = self.entry.get()
-        if(len(buffer) == 0):
-            return True
-        return buffer[-1] in "+-/x="
+        try:
+            buffer = self.entry.get()
+            if(len(buffer) == 0):
+                return True
+            return buffer[-1] in "+-/x="
+        except Exception as e:
+            messagebox.showerror("Erro" f"Erro ao verificar último operador: {e}")
 
     def isSignalOperator(self):
-        return self.signal in "+-/x="
+        try:
+            return self.signal in "+-/x="
+        except Exception as e:
+            messagebox.showerror("Erro" f"Erro ao verificar operador: {e}")
 
     def isNegativeNumber(self):
-        if (len(self.entry.get()) == 0 or self.isLastSignalOperator()) and self.signal == "-":
-            buffer = self.entry.get()
-            if(len(buffer) <2):
-                return True
-            return not (buffer[-1] == "-" and buffer[-2] == "-")
+        try:
+            if (len(self.entry.get()) == 0 or self.isLastSignalOperator()) and self.signal == "-":
+                buffer = self.entry.get()
+                if(len(buffer) <2):
+                    return True
+                return not (buffer[-1] == "-" and buffer[-2] == "-")
+        except Exception as e:
+            messagebox.showerror("Erro" f"Erro ao verificar sinal númerico: {e}")
 
             
 

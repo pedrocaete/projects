@@ -2,7 +2,8 @@ from tkinter import *
 from CalculatorButton import CalculatorButton
 
 root = Tk()
-entry = Entry(root, width=50)
+root.title("Calculadora")
+entry = Entry(root, width=50, borderwidth=6)
 calculatorButtons = []
 signals = ["+", "-", "/", "x"]
 
