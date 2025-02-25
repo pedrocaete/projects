@@ -24,6 +24,10 @@ class ImageViewer:
 
         self.loadImages()
 
+        imageIndex = self.atualIndex + 1
+        self.statusBar = Label(self.root, text="Image " + str(imageIndex) + " of " + str(len(self.images)))
+        self.statusBar.pack()
+
     def loadImages(self):
         self.images = self.manager.listImages()
         if self.images:
