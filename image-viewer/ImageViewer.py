@@ -11,22 +11,22 @@ class ImageViewer:
         self.atualIndex = 0;
 
         self.imageLabel = Label(root)
-        self.imageLabel.pack()
+        self.imageLabel.grid(row=0, column=0, columnspan=3)
 
         self.addImagesButton = Button(self.root, text="Adicionar Imagens", command=self.addImages)
-        self.addImagesButton.pack()
+        self.addImagesButton.grid(row=1, column=1)
 
         self.prevButton = Button(self.root, text="<<", command=self.viewPrev)
-        self.prevButton.pack(side="left")
+        self.prevButton.grid(row=1, column=0)
 
         self.nextButton = Button(self.root, text=">>", command=self.viewNext)
-        self.nextButton.pack(side="right")
+        self.nextButton.grid(row=1, column=2)
 
         self.loadImages()
 
         imageIndex = self.atualIndex + 1
-        self.statusBar = Label(self.root, text="Image " + str(imageIndex) + " of " + str(len(self.images)))
-        self.statusBar.pack()
+        self.statusBar = Label(self.root, text="Image " + str(imageIndex) + " of " + str(len(self.images)), bd=1, relief=SUNKEN, anchor=W)
+        self.statusBar.grid(row=2, column=0, columnspan=3, sticky= W+E)
 
     def loadImages(self):
         self.images = self.manager.listImages()
