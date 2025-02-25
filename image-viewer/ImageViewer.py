@@ -22,16 +22,16 @@ class ImageViewer:
         self.nextButton = Button(self.root, text=">>", command=self.viewNext)
         self.nextButton.grid(row=1, column=2)
 
-        self.loadImages()
+        self.status = Label(self.root, text="", bd=1, relief=SUNKEN, anchor=W)
+        self.status.grid(row=2, column=0, columnspan=3, sticky= W+E)
 
-        imageIndex = self.atualIndex + 1
-        self.statusBar = Label(self.root, text="Image " + str(imageIndex) + " of " + str(len(self.images)), bd=1, relief=SUNKEN, anchor=W)
-        self.statusBar.grid(row=2, column=0, columnspan=3, sticky= W+E)
+        self.loadImages()
 
     def loadImages(self):
         self.images = self.manager.listImages()
         if self.images:
             self.displayImage()
+            self.updateStatusBar()
 
     def displayImage(self):
         if not self.images:
@@ -61,3 +61,7 @@ class ImageViewer:
         else:
             self.atualIndex = len(self.images) - 1
         self.loadImages()
+
+    def updateStatusBar(self):
+        self.imageIndex = self.atualIndex + 1
+        self.status.config(text="Image " + str(self.imageIndex) + " of " + str(len(self.images)))
