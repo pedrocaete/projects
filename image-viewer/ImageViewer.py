@@ -22,7 +22,7 @@ class ImageViewer:
         self.nextButton = Button(self.root, text=">>", command=self.viewNext)
         self.nextButton.grid(row=1, column=2)
 
-        self.status = Label(self.root, text="", bd=1, relief=SUNKEN, anchor=W)
+        self.status = Label(self.root, text="", bd=1, relief=SUNKEN, anchor=E)
         self.status.grid(row=2, column=0, columnspan=3, sticky= W+E)
 
         self.loadImages()
