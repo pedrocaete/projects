@@ -8,32 +8,48 @@ class ImageViewer:
         self.root = root
         self.root.title("Image Viewer")
         self.manager = ImageManager()
-        self.atualIndex = 0;
+        self.atualIndex = 0
+        self.images = []
 
-        self.imageLabel = Label(root)
+        # Inicializa a interface
+        self.create_widgets()
+        self.load_images()
+
+    def create_widgets(self):
+        self.create_image_label()
+        self.create_buttons()
+        self.create_status_bar()
+
+    def create_image_label(self):
+        self.imageLabel = Label(self.root)
         self.imageLabel.grid(row=0, column=0, columnspan=3)
 
-        self.addImagesButton = Button(self.root, text="Adicionar Imagens", command=self.addImages)
+    def create_buttons(self):
+        self.addImagesButton = Button(self.root, text="Adicionar Imagens", command=self.add_images)
         self.addImagesButton.grid(row=1, column=1)
 
-        self.prevButton = Button(self.root, text="<<", command=self.viewPrev)
+        self.prevButton = Button(self.root, text="<<", command=self.view_prev)
         self.prevButton.grid(row=1, column=0)
 
-        self.nextButton = Button(self.root, text=">>", command=self.viewNext)
+        self.nextButton = Button(self.root, text=">>", command=self.view_next)
         self.nextButton.grid(row=1, column=2)
 
+    def create_status_bar(self):
+        """Cria a barra de status."""
         self.status = Label(self.root, text="", bd=1, relief=SUNKEN, anchor=E)
-        self.status.grid(row=2, column=0, columnspan=3, sticky= W+E)
+        self.status.grid(row=2, column=0, columnspan=3, sticky=W+E)
 
-        self.loadImages()
+    def update_status_bar(self):
+        self.imageIndex = self.atualIndex + 1
+        self.status.config(text="Image " + str(self.imageIndex) + " of " + str(len(self.images)))
 
-    def loadImages(self):
-        self.images = self.manager.listImages()
+    def load_images(self):
+        self.images = self.manager.list_images()
         if self.images:
-            self.displayImage()
-            self.updateStatusBar()
+            self.display_image()
+            self.update_status_bar()
 
-    def displayImage(self):
+    def display_image(self):
         if not self.images:
             return
 
@@ -44,24 +60,20 @@ class ImageViewer:
         
         self.imageLabel.config(image=imgTk)
 
-    def addImages(self):
-        self.manager.addImages()
-        self.loadImages()
+    def add_images(self):
+        self.manager.add_images()
+        self.load_images()
 
-    def viewNext(self):
+    def view_next(self):
         if self.images and self.atualIndex < len(self.images) - 1:
             self.atualIndex += 1 
         else:
             self.atualIndex = 0
-        self.loadImages()
+        self.load_images()
 
-    def viewPrev(self):
+    def view_prev(self):
         if self.images and self.atualIndex > 0:
             self.atualIndex -= 1 
         else:
             self.atualIndex = len(self.images) - 1
-        self.loadImages()
-
-    def updateStatusBar(self):
-        self.imageIndex = self.atualIndex + 1
-        self.status.config(text="Image " + str(self.imageIndex) + " of " + str(len(self.images)))
+        self.load_images()
