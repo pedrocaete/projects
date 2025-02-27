@@ -1,9 +1,13 @@
 from tkinter import *
+import customtkinter as ctk
 from CalculatorButton import CalculatorButton
 
-root = Tk()
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("dark-blue")
+
+root = ctk.CTk()
 root.title("Calculadora")
-entry = Entry(root, width=50, borderwidth=6)
+entry = ctk.CTkEntry(root, border_width=6)
 calculatorButtons = []
 signals = ["+", "-", "/", "x"]
 
@@ -16,6 +20,6 @@ for index, signal in enumerate(signals):
 CalculatorButton(root, "=", 4, 2, entry)
 CalculatorButton(root, "Clear", 4, 1, entry)
 
-entry.grid(row=0,column=0, columnspan=4, ipady=20)
+entry.grid(row=0,column=0, columnspan=4, ipady=20, sticky="nsew")
 
 root.mainloop()
